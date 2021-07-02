@@ -1,0 +1,117 @@
+linters-settings:
+  gofmt:
+    simplify: false
+  govet:
+    check-shadowing: true
+  goimports:
+    # put imports beginning with prefix after 3rd-party packages;
+    # it's a comma-separated list
+    local-prefixes: gohper
+  revive:
+    min-confidence: 0
+  lll:
+    line-length: 300
+    tab-width: 4
+  maligned:
+    suggest-new: true
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  dupl:
+    threshold: 100
+  unused:
+    check-exported: false
+  unparam:
+    check-exported: false
+  nakedret:
+    max-func-lines: 30
+  gocognit:
+    min-complexity: 45
+  gocritic:
+    disabled-checks:
+      - regexpMust
+      - hugeParam
+      - commentFormatting
+    enabled-tags:
+      - performance
+    settings:
+      captLocal:
+        paramsOnly: true
+      rangeValCopy:
+        sizeThreshold: 1024 # 1Kb
+  funlen:
+    lines: 200
+    statements: 100
+
+linters:
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dogsled
+    - errcheck
+    - exportloopref
+    - funlen
+    - gochecknoinits
+    - gocognit
+    - goconst
+    - gocritic
+    - gofmt
+    - goimports
+    - gomodguard
+    - revive
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - nakedret
+    - rowserrcheck
+    - staticcheck
+    - structcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+  fast: false
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  exclude-use-default: false
+  exclude-rules:
+    - path: \.go
+      text: "should have a package comment"
+    - path: \.go
+      text: "should omit type error from declaration"
+
+output:
+  format: tab
+  print-issued-lines: false
+  print-linter-name: true
+  uniq-by-line: false
+
+severity:
+  default-severity: error
+  case-sensitive: false
+  rules:
+    - severity: info
+      linters:
+        - deadcode
+        - funlen
+        - gochecknoinits
+        - gocognit
+        - goconst
+        - gofmt
+        - goimports
+        - lll
+        - misspell
+        - unparam
+    - severity: info
+      linters:
+        - revive
+      text: "should have comment or be unexported"
