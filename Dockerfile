@@ -5,7 +5,8 @@ RUN apk add git
 RUN mkdir /app
 
 RUN cd / && git clone https://github.com/wordnik/swagger-ui.git
-ENV SWAGGERDIST /swagger-ui/dist
+ENV SWAGGERDIST=/swagger-ui/dist
+ENV GO111MODULE=on
 
 ADD . /app
 

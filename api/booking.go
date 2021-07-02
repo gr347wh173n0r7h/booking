@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	restful "github.com/emicklei/go-restful"
-	restfulspec "github.com/emicklei/go-restful-openapi"
+	restful "github.com/emicklei/go-restful/v3"
+	restfulspec "github.com/emicklei/go-restful-openapi/v2"
 	"github.com/sirupsen/logrus"
 
 	"github.com/booking/model"

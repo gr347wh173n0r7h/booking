@@ -1,7 +1,7 @@
 GO_PACKAGES = $(shell go list ./... | grep -v vendor)
 GO_FILES = $(shell find . -name "*.go" | grep -v vendor | uniq)
 LOCAL_PACKAGES="github.com/"
-MOCKERY = GOPATH=${GOPATH} mockery
+MOCKERY = ${GOPATH} mockery
 
 format:
 	@echo "==> Formatting"
@@ -35,16 +35,16 @@ start: install
 	$(GOPATH)/bin/booking
 
 start-local:
-	HOST=localhost PORT=8081 MAXTIMEBLOCK=60 LOGLEVEL=trace DBURL=postgres://postgres:test@localhost:5432/booking?sslmode=disable go run cmd/booking/main.go
+	HOST=localhost PORT=8081 MAXTIMEBLOCK=60 LOGLEVEL=trace DBURL='${DATABASE_URL} SWAGGERDIST=/home/jpetersen/Workspace/swagger-ui/dist go run cmd/booking/main.go
 
 docker-build:
 	docker build -t booking .
 
 docker-start:
-	docker run -e HOST=127.0.0.1 -e PORT=8081 -e LOGLEVEL=trace -e DBURL='postgres://postgres:testymctest@booking.ckvobt07ow0f.us-east-2.rds.amazonaws.com/booking?sslmode=disable' -p 8081:8081 -it --name booking-service booking
+	docker run -e HOST=127.0.0.1 -e PORT=8081 -e LOGLEVEL=trace -e DBURL=${DATABASE_URL} -e SWAGGERDIST=/swagger-ui/dist -p 8081:8081 -it --name booking-service booking
 
 docker-start-local:
-	docker run -e HOST=127.0.0.1 -e PORT=8081 -e LOGLEVEL=trace -e DBURL='postgres://postgres:test@172.17.0.2:5432/booking?sslmode=disable' -p 8081:8081 -it --name booking-service booking
+	docker run -e HOST=127.0.0.1 -e PORT=8081 -e LOGLEVEL=trace -e DBURL=${DATABASE_URL} -e SWAGGERDIST=/swagger-ui/dist -p 8081:8081 -it --name booking-service booking
 
 mocks:
 	@echo "==> Generating mocks"
