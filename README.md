@@ -8,8 +8,8 @@ API Mircoservice for creating and booking meeting rooms for cross company events
 * Users can cancel their own reservations
 
 **Requirements**:
-* Go 1.15
-* postgres
+* Go 1.15 (with `GO111MODULE=on`)
+* postgres v12.5
   
 **Swagger**: [swagger.json](http://ec2-54-81-59-73.compute-1.amazonaws.com/api/apidocs/?url=http://ec2-54-81-59-73.compute-1.amazonaws.com/api/swagger.json)
 
@@ -43,12 +43,25 @@ $ curl -X POST http://redfishbluefish.dev/rooms --data '{"Company":"coke","Numbe
 
 # Get All Rooms
 $ curl -X GET http://redfishbluefish.dev/rooms/all
-[{"ID":1,"Name":"C1","Number":1,"Company":"C"},...]
-
+[
+  {
+    "ID": 1,
+    "Name": "C1",
+    "Number": 1,
+    "Company": "C"
+  },
+  ...
+]
 
 # Get Room
 $ curl -X GET http://redfishbluefish.dev/rooms/1
-{"ID":1,"Name":"C1","Number":1,"Company":"C"}
+{
+  "ID": 1,
+  "Name": "C1",
+  "Number": 1,
+  "Company": "C"
+}
+
 
 # Delete Room
 $ curl -X DELETE http://redfishbluefish.dev/rooms/1
@@ -60,15 +73,79 @@ $ curl -X POST http://redfishbluefish.dev/booking --data '{"RoomID":1,"Title":"M
 
 # Get All Meetings
 $ curl -X GET http://redfishbluefish.dev/booking/meetings/all
-[{"ID":1,"RoomID":1,"Room":{"ID":1,"Name":"C1","Number":1,"Company":"C"},"Title":"Meeting1","Attendees":["alice","bob"],"Created":"2021-07-03T00:07:26.680792Z","Start":"2021-07-02T01:00:00Z","End":"2021-07-02T02:00:00Z"},...]
+[
+  {
+    "ID": 1,
+    "RoomID": 1,
+    "Room": {
+      "ID": 1,
+      "Name": "C1",
+      "Number": 1,
+      "Company": "C"
+    },
+    "Title": "Meeting1",
+    "Attendees": [
+      "alice",
+      "bob"
+    ],
+    "Created": "2021-07-03T00:07:26.680792Z",
+    "Start": "2021-07-02T01:00:00Z",
+    "End": "2021-07-02T02:00:00Z"
+  },
+  ...
+]
+
 
 # Get Meeting
 $ curl -X GET http://redfishbluefish.dev/booking/meetings/1
-{"ID":1,"RoomID":1,"Room":{"ID":1,"Name":"C1","Number":1,"Company":"C"},"Title":"Meeting1","Attendees":["alice","bob"],"Created":"2021-07-03T00:07:26.680792Z","Start":"2021-07-02T01:00:00Z","End":"2021-07-02T02:00:00Z"}
+{
+  "ID": 1,
+  "RoomID": 1,
+  "Room": {
+    "ID": 1,
+    "Name": "C1",
+    "Number": 1,
+    "Company": "C"
+  },
+  "Title": "Meeting1",
+  "Attendees": [
+    "alice",
+    "bob"
+  ],
+  "Created": "2021-07-03T00:07:26.680792Z",
+  "Start": "2021-07-02T01:00:00Z",
+  "End": "2021-07-02T02:00:00Z"
+}
 
 # Delete Meeting
 $ curl -X DELETE http://redfishbluefish.dev/booking/meetings/1
 200 OK
+
+# Get Availability
+curl -X GET http://redfishbluefish.dev/booking/available
+{
+  "1": {
+    "2021-07-03T00:00:00Z": {
+      "ID": 2,
+      "RoomID": 1,
+      "Room": null,
+      "Title": "Meeting1",
+      "Attendees": [
+        "alice",
+        "bob"
+      ],
+      "Created": "2021-07-03T00:14:11.724623Z",
+      "Start": "2021-07-03T00:00:00Z",
+      "End": "2021-07-03T01:00:00Z"
+    },
+    "2021-07-03T01:00:00Z": null,
+    ...
+ "9": {
+    "2021-07-03T00:00:00Z": null,
+    "2021-07-03T01:00:00Z": null,
+    ...
+ }
+}
 ```
 
 ### TODO:
