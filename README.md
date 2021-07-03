@@ -13,29 +13,38 @@ API Mircoservice for creating and booking meeting rooms for cross company events
   
 **Swagger**: [swagger.json](http://ec2-54-81-59-73.compute-1.amazonaws.com/api/apidocs/?url=http://ec2-54-81-59-73.compute-1.amazonaws.com/api/swagger.json)
 
-## Linting & Testing
+## Linting
 ```
-make lint
-make test
+$ make lint
+```
+golangci-lint run  --sort-results --out-format colored-line-number
+...
+
+## Tests
+
+```
+$ make test
+PASS
+coverage: 88.5% of statements
+ok  	github.com/booking/service	0.025s	coverage: 88.5% of statements
 ```
 
 ##  Run
-The service requires the export of `DATABASE_URL` at run time to properly configure Database connection.
+**NOTE**: The service requires the export of `DATABASE_URL` at run time to properly configure Database connection.
 
 ### Local
 ``` 
-make DATABASE_URL="postgres://postgres:test@127.0.0.1:5432/booking?sslmode=disable" \
+$ make DATABASE_URL="postgres://postgres:test@127.0.0.1:5432/booking?sslmode=disable" \
  start local
 ```
 
 ### Docker
 ```
-make docker-build
-make DATABASE_URL"..." docker-start
+$ make docker-build
+$ make DATABASE_URL"..." docker-start
 ```
 
 ### Examples
-
 ```
 # Add Rooms
 $ curl -X POST http://redfishbluefish.dev/rooms --data '{"Company":"coke","Number":3}' --header "Content-Type: application/json"
